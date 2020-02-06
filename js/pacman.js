@@ -25,7 +25,15 @@ function initGrille()
 {
  let _grille=document.querySelector("#grille");
  _grille.innerHTML="";
- _grille.style = "grid-template-columns: repeat("+grille[0].length + ", 40px);  grid-template-rows: repeat(" + grille.length + ", 40px)"
+ _grille.style = "grid-template-columns: repeat(" + grille[0].length + ", 40px);  grid-template-rows: repeat(" + grille.length + ", 40px)"
+ for(let ligne in grille)
+//console.log(grille[ligne])
+  {
+    for(let col in grille[ligne])
+    {
+      console.log(grille[ligne][col]);
+    }
+  }
 }
  initGrille();
 
