@@ -32,6 +32,8 @@ function initGrille()
     for(let col in grille[ligne])
     {
       console.log(grille[ligne][col]);
+      let monElement=document.createElement("div")
+      if (grille[ligne][col])==
     }
   }
 }
