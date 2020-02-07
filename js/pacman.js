@@ -33,9 +33,25 @@ function initGrille()
     {
       console.log(grille[ligne][col]);
       let monElement=document.createElement("div")
-      if (grille[ligne][col])==
+      if ((grille[ligne][col]) == (0))
+      {
+        monElement.classList.add("mur");
+      }
+      else if ((grille[ligne][col]) == (1))
+      {
+       monElement.classList.add("sol");
+      }
+      else if ((grille[ligne][col]) == (2))
+      {
+       monElement.classList.add("bonbon");
+      }
+      _grille.appendChild(monElement);
     }
   }
 }
  initGrille();
+function boucleRefresh()
+{
+ iniGrille
+}
 
