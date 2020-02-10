@@ -19,3 +19,6 @@ justify-content: center;
 .pacman{
   background-image: url(../images/pacman4.gif);
 }
+.fantome{
+background-image: url(../images/fantome_bleu1.gif);
+}

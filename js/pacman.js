@@ -1,3 +1,4 @@
+//Création grille
 var grille=[
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [0,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,0],
@@ -52,16 +53,26 @@ function initGrille()
   }
 }
  initGrille();
+
+// Création Pacman + touches
 var PacMan =
 {
   x: 5,
   y: 2,
   direction: 0
 };
+//Creation Fantomes
+var fantome =
+{
+  x: 6,
+  y: 7,
+  direction: 0
+};
 function boucleRefresh()
 {
   initGrille();
   bougePacMan();
+  bougeFantome();
   setTimeout (boucleRefresh, 1000);
 }
 boucleRefresh()
@@ -187,3 +198,59 @@ function compteBonbon()
   }
 }
 compteBonbon();
+function bougeFantome()
+{
+  let creationFantome=document.createElement("div");
+  creationFantome.classList.add("fantome");
+  creationFantome.style.gridColumn= fantome.x;
+  creationFantome.style.gridRow= fantome.y;
+  _grille.appendChild(creationFantome);
+  if(fantome.direction==0)
+  {
+    fantome.x++;
+  }
+  else if(fantome.direction==1)
+  {
+    fantome.x--;
+  }
+  else if(fantome.direction==2)
+  {
+    fantome.y++;
+  }
+  else if(fantome.direction==3)
+  {
+    fantome.y--;
+  }
+}
+function collisionFantome()
+{
+  if(fantome.direction==0)
+  {
+    if(grille[fantome.y][fantome.x]==0)
+    {
+     fantome.x--;
+    }
+  }
+  if(fantome.direction==1)
+  {
+    if(grille[fantome.y][fantome.x]==0)
+    {
+     fantome.x++;
+    }
+  }
+  if(fantome.direction==2)
+  {
+    if(grille[fantome.y][fantome.x]==0)
+    {
+     fantome.y--;
+    }
+  }
+  if(fantome.direction==3)
+  {
+    if(grille[fantome.y][fantome.x]==0)
+    {
+     fantome.y++;
+    }
+  }
+}
+collisionFantome()
