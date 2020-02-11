@@ -23,6 +23,8 @@ var grille=[
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
 let _grille=document.querySelector("#grille");
+var score=0;
+var derniereDirection;
 function initGrille()
 {
  _grille.innerHTML="";
@@ -62,18 +64,47 @@ var PacMan =
   direction: 0
 };
 //Creation Fantomes
-var fantome =
+var fantomeBleu =
 {
-  x: 6,
-  y: 7,
+  x: 9,
+  y: 11,
+  direction: 0
+};
+var fantomeRouge =
+{
+  x: 9,
+  y:11,
+  direction: 0
+};
+var fantomeOrange =
+{
+  x: 9,
+  y:11,
+  direction: 0
+};
+var fantomeVert =
+{
+  x: 9,
+  y:11,
   direction: 0
 };
 function boucleRefresh()
 {
   initGrille();
   bougePacMan();
-  bougeFantome();
+  bougeMonFantome(fantomeBleu,"fantome-bleu" );
+  bougeMonFantome(fantomeRouge, "fantome-rouge");
+  bougeMonFantome(fantomeOrange, "fantome-orange");
+  bougeMonFantome(fantomeVert, "fantome-vert");
+  sensPacman();
+  
   setTimeout (boucleRefresh, 1000);
+
+  var directionElem=document.getElementById("sens");
+  directionElem.innerHTML="Sens Pacman : "+derniereDirection;
+
+  var scoreElem=document.getElementById("score");
+  scoreElem.innerHTML= "Score : "+score;
 }
 boucleRefresh()
 document.onkeypress=appuieTouche;
@@ -97,17 +128,37 @@ function bougePacMan()
   }
   testCollisionPacMan();
   sortMur();
-  mangeBonbon()
+  mangeBonbon();
   let pacMan=document.createElement("div");
   pacMan.classList.add("pacman");
   pacMan.style.gridColumn= (PacMan.x);
   pacMan.style.gridRow= (PacMan.y);
   _grille.appendChild(pacMan);
-
   if(nombreBonbon<=0){
-    alert("vous avez gagné")
+    alert("Vous avez gagné !")
+  }
+  
+}
+function sensPacman()
+{
+  if(PacMan.direction==0)
+  {
+    derniereDirection="Gauche";
+  }
+  else if(PacMan.direction==1)
+  {
+    derniereDirection="Droite";
+  }
+  else if(PacMan.direction==2)
+  {
+    derniereDirection="Monter";
+  }
+  else if(PacMan.direction==3)
+  {
+    derniereDirection="Descendre";
   }
 }
+
 function appuieTouche(event)
 {
  console.log(event.key);
@@ -174,13 +225,24 @@ function sortMur()
    PacMan.x=grille[0].length;
  }
 }
+function sortMur()
+{
+  if(PacMan.x == 0 && PacMan.y == 11)
+  {
+    PacMan.x = 19;
+  }
+  if(PacMan.x == 20 && PacMan.y == 11)
+  {
+    PacMan.x = 1;
+  }
+}
 function mangeBonbon()
 {
   if(grille[PacMan.y-1][PacMan.x-1] == 2)
   {
     grille[PacMan.y-1][PacMan.x-1] = 1;
     nombreBonbon--;
-
+    score++;
   }
 }
 var nombreBonbon=0;
@@ -198,59 +260,77 @@ function compteBonbon()
   }
 }
 compteBonbon();
-function bougeFantome()
+function bougeMonFantome(monFantome, classFantome)
 {
+  monFantome.direction =getRandomIntInclusive(0,3)
+  if( monFantome.direction==0)
+  {
+    monFantome.x++;
+  }
+  else if( monFantome.direction==1)
+  {
+    monFantome.x--;
+  }
+  else if(monFantome.direction==2)
+  {
+    monFantome.y++;
+  }
+  else if(monFantome.direction==3)
+  {
+    monFantome.y--;
+  }
+  collisionFantome(monFantome)
+  collisionFantomePacman(monFantome)
   let creationFantome=document.createElement("div");
-  creationFantome.classList.add("fantome");
-  creationFantome.style.gridColumn= fantome.x;
-  creationFantome.style.gridRow= fantome.y;
+  creationFantome.classList.add(classFantome);
+  creationFantome.style.gridColumn= monFantome.x;
+  creationFantome.style.gridRow= monFantome.y;
   _grille.appendChild(creationFantome);
-  if(fantome.direction==0)
-  {
-    fantome.x++;
-  }
-  else if(fantome.direction==1)
-  {
-    fantome.x--;
-  }
-  else if(fantome.direction==2)
-  {
-    fantome.y++;
-  }
-  else if(fantome.direction==3)
-  {
-    fantome.y--;
-  }
 }
-function collisionFantome()
+function getRandomIntInclusive(min, max)
 {
-  if(fantome.direction==0)
+  min=Math.ceil(min);
+  max=Math.floor(max);
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+function collisionFantome(monFantome)
+{
+  if(monFantome.direction==0)
   {
-    if(grille[fantome.y][fantome.x]==0)
+    if(grille[monFantome.y-1][monFantome.x-1]==0)
     {
-     fantome.x--;
+      monFantome.x--;
     }
   }
-  if(fantome.direction==1)
+  else if(monFantome.direction==1)
   {
-    if(grille[fantome.y][fantome.x]==0)
+    if(grille[monFantome.y-1][monFantome.x-1]==0)
     {
-     fantome.x++;
+      monFantome.x++;
     }
   }
-  if(fantome.direction==2)
+  else if(monFantome.direction==2)
   {
-    if(grille[fantome.y][fantome.x]==0)
+    if(grille[monFantome.y-1][monFantome.x-1]==0)
     {
-     fantome.y--;
+      monFantome.y--;
     }
   }
-  if(fantome.direction==3)
+  else if(monFantome.direction==3)
   {
-    if(grille[fantome.y][fantome.x]==0)
+    if(grille[monFantome.y-1][monFantome.x-1]==0)
     {
-     fantome.y++;
+      monFantome.y++;
     }
   }
 }
-collisionFantome()
+function collisionFantomePacman(monFantome)
+{
+  if(monFantome.x==PacMan.x)
+  {
+    if(monFantome.y==PacMan.y)
+    {
+      alert("Game over...");
+    }
+  }
+}
