@@ -10,32 +10,84 @@ class Pacman{
  }
  bougePacMan()
  {
-  if(PacMan.direction==0)
+  if(this.direction==0)
   {
-    PacMan.x--
+    this.x--
   }
-  else if(PacMan.direction==1)
+  else if(this.direction==1)
   {
-    PacMan.x++
+    this.x++
   }
-  else if(PacMan.direction==2)
+  else if(this.direction==2)
   {
-    PacMan.y--
+    this.y--
   }
-  else if(PacMan.direction==3)
+  else if(this.direction==3)
   {
-    PacMan.y++
+    this.y++
   }
-  testCollisionPacMan();
-  sortMur();
-  mangeBonbon();
+  this.testCollisionPacMan();
+  this.sortMur();
+  this.mangeBonbon();
   let pacMan=document.createElement("div");
   pacMan.classList.add("pacman");
-  pacMan.style.gridColumn= (PacMan.x);
-  pacMan.style.gridRow= (PacMan.y);
+  pacMan.style.gridColumn= (this.x);
+  pacMan.style.gridRow= (this.y);
   _grille.appendChild(pacMan);
   if(nombreBonbon<=0){
     alert("Vous avez gagné !")
+  }
+ }
+ testCollisionPacMan()
+ {
+  if(this.direction==0)
+  {
+    if(grille[this.y-1][this.x-1]==0)
+    {
+        this.x++;
+    }
+  }
+  else if(this.direction==1)
+  {
+    if(grille[this.y-1][this.x-1]==0)
+    {
+        this.x--;
+    }
+   
+  }
+  else if(this.direction==2)
+  {
+    if(grille[this.y-1][this.x-1]==0)
+    {
+        this.y++;
+    }
+  }
+  else if(this.direction==3)
+  {
+    if(grille[this.y-1][this.x-1]==0)
+    {
+        this.y--;
+    }
+  }
+ }
+ sortMur()
+ {
+  if(this.x>grille[0].length)
+ {
+    this.x=1;
+ }
+  if(this.x<1)
+ {
+    this.x=grille[0].length;
+ }
+ }
+ mangeBonbon()
+ {
+  if(grille[this.y-1][this.x-1] == 2)
+  {
+    grille[this.y-1][this.x-1] = 1;
+    nombreBonbon--;
+    score++;
   }
  }
 }

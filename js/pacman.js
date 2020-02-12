@@ -93,18 +93,14 @@ function boucleRefresh()
   bougeMonFantome(fantomeOrange, "fantome-orange");
   bougeMonFantome(fantomeVert, "fantome-vert");
   sensPacman();
-  
   setTimeout (boucleRefresh, 1000);
-
   var directionElem=document.getElementById("sens");
   directionElem.innerHTML="Sens Pacman : "+derniereDirection;
-
   var scoreElem=document.getElementById("score");
   scoreElem.innerHTML= "Score : "+score;
 }
 boucleRefresh()
 document.onkeypress=appuieTouche;
-
 function sensPacman()
 {
   if(PacMan.direction==0)
@@ -124,7 +120,6 @@ function sensPacman()
     derniereDirection="Descend";
   }
 }
-
 function appuieTouche(event)
 {
  console.log(event.key);
@@ -147,69 +142,6 @@ function appuieTouche(event)
     PacMan.direction=3
    break;
  }
-}
-function testCollisionPacMan()
-{
-  if(PacMan.direction==0)
-  {
-    if(grille[PacMan.y-1][PacMan.x-1]==0)
-    {
-     PacMan.x++;
-    }
-  }
-  else if(PacMan.direction==1)
-  {
-    if(grille[PacMan.y-1][PacMan.x-1]==0)
-    {
-     PacMan.x--;
-    }
-   
-  }
-  else if(PacMan.direction==2)
-  {
-    if(grille[PacMan.y-1][PacMan.x-1]==0)
-    {
-     PacMan.y++;
-    }
-  }
-  else if(PacMan.direction==3)
-  {
-    if(grille[PacMan.y-1][PacMan.x-1]==0)
-    {
-     PacMan.y--;
-    }
-  }
-}
-function sortMur()
-{
- if(PacMan.x>grille[0].length)
- {
-   PacMan.x=1;
- }
- if(PacMan.x<1)
- {
-   PacMan.x=grille[0].length;
- }
-}
-function sortMur()
-{
-  if(PacMan.x == 0 && PacMan.y == 11)
-  {
-    PacMan.x = 19;
-  }
-  if(PacMan.x == 20 && PacMan.y == 11)
-  {
-    PacMan.x = 1;
-  }
-}
-function mangeBonbon()
-{
-  if(grille[PacMan.y-1][PacMan.x-1] == 2)
-  {
-    grille[PacMan.y-1][PacMan.x-1] = 1;
-    nombreBonbon--;
-    score++;
-  }
 }
 var nombreBonbon=0;
 function compteBonbon()
