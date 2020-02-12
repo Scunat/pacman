@@ -57,12 +57,8 @@ function initGrille()
  initGrille();
 
 // Création Pacman + touches
-var PacMan =
-{
-  x: 5,
-  y: 2,
-  direction: 0
-};
+var PacMan = new Pacman();
+
 //Creation Fantomes
 var fantomeBleu =
 {
@@ -91,7 +87,7 @@ var fantomeVert =
 function boucleRefresh()
 {
   initGrille();
-  bougePacMan();
+  PacMan.bougePacMan();
   bougeMonFantome(fantomeBleu,"fantome-bleu" );
   bougeMonFantome(fantomeRouge, "fantome-rouge");
   bougeMonFantome(fantomeOrange, "fantome-orange");
@@ -108,54 +104,24 @@ function boucleRefresh()
 }
 boucleRefresh()
 document.onkeypress=appuieTouche;
-function bougePacMan()
-{
-  if(PacMan.direction==0)
-  {
-    PacMan.x--
-  }
-  else if(PacMan.direction==1)
-  {
-    PacMan.x++
-  }
-  else if(PacMan.direction==2)
-  {
-    PacMan.y--
-  }
-  else if(PacMan.direction==3)
-  {
-    PacMan.y++
-  }
-  testCollisionPacMan();
-  sortMur();
-  mangeBonbon();
-  let pacMan=document.createElement("div");
-  pacMan.classList.add("pacman");
-  pacMan.style.gridColumn= (PacMan.x);
-  pacMan.style.gridRow= (PacMan.y);
-  _grille.appendChild(pacMan);
-  if(nombreBonbon<=0){
-    alert("Vous avez gagné !")
-  }
-  
-}
+
 function sensPacman()
 {
   if(PacMan.direction==0)
   {
-    derniereDirection="Gauche";
+    derniereDirection="Recule";
   }
   else if(PacMan.direction==1)
   {
-    derniereDirection="Droite";
+    derniereDirection="Avance";
   }
   else if(PacMan.direction==2)
   {
-    derniereDirection="Monter";
+    derniereDirection="Monte";
   }
   else if(PacMan.direction==3)
   {
-    derniereDirection="Descendre";
+    derniereDirection="Descend";
   }
 }
 
