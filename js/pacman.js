@@ -1,27 +1,6 @@
 //Création grille
-var grille=[
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,0],
-[0,2,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,2,0],
-[0,2,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,2,0],
-[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-[0,2,0,0,2,0,2,0,0,0,0,0,2,0,2,0,0,2,0],
-[0,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,0],
-[0,0,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,0,0],
-[0,1,1,0,2,0,2,2,2,2,2,2,2,0,2,0,1,1,0],
-[0,0,0,0,2,0,2,0,0,1,0,0,2,0,2,0,0,0,0],
-[2,2,2,2,2,2,2,0,1,1,1,0,2,2,2,2,2,2,2],
-[0,0,0,0,2,0,2,0,0,1,0,0,2,0,2,0,0,0,0],
-[0,1,1,0,2,0,2,2,2,2,2,2,2,0,2,0,1,1,0],
-[0,0,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,0,0],
-[0,2,2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,2,0],
-[0,2,0,0,2,0,2,0,0,0,0,0,2,0,2,0,0,2,0],
-[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
-[0,2,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,2,0],
-[0,2,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,2,0],
-[0,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-];
+var maGrilleDef= new Grille();
+var grille = maGrilleDef.getGrilleDef();
 let _grille=document.querySelector("#grille");
 var score=0;
 var derniereDirection;
@@ -60,39 +39,20 @@ function initGrille()
 var PacMan = new Pacman();
 
 //Creation Fantomes
-var fantomeBleu =
-{
-  x: 9,
-  y: 11,
-  direction: 0
-};
-var fantomeRouge =
-{
-  x: 9,
-  y:11,
-  direction: 0
-};
-var fantomeOrange =
-{
-  x: 9,
-  y:11,
-  direction: 0
-};
-var fantomeVert =
-{
-  x: 9,
-  y:11,
-  direction: 0
-};
+var fantomeBleu = new Fantome();
+var fantomeRouge = new Fantome();
+var fantomeOrange = new Fantome();
+var fantomeVert = new Fantome();
+
 function boucleRefresh()
 {
   initGrille();
   PacMan.bougePacMan();
-  bougeMonFantome(fantomeBleu,"fantome-bleu" );
-  bougeMonFantome(fantomeRouge, "fantome-rouge");
-  bougeMonFantome(fantomeOrange, "fantome-orange");
-  bougeMonFantome(fantomeVert, "fantome-vert");
-  sensPacman();
+  fantomeBleu.bougeMonFantome("fantome-bleu" );
+  fantomeRouge.bougeMonFantome( "fantome-rouge");
+  fantomeOrange.bougeMonFantome( "fantome-orange");
+  fantomeVert.bougeMonFantome( "fantome-vert");
+  PacMan.sensPacman();
   setTimeout (boucleRefresh, 1000);
   var directionElem=document.getElementById("sens");
   directionElem.innerHTML="Sens Pacman : "+derniereDirection;
@@ -101,25 +61,6 @@ function boucleRefresh()
 }
 boucleRefresh()
 document.onkeypress=appuieTouche;
-function sensPacman()
-{
-  if(PacMan.direction==0)
-  {
-    derniereDirection="Recule";
-  }
-  else if(PacMan.direction==1)
-  {
-    derniereDirection="Avance";
-  }
-  else if(PacMan.direction==2)
-  {
-    derniereDirection="Monte";
-  }
-  else if(PacMan.direction==3)
-  {
-    derniereDirection="Descend";
-  }
-}
 function appuieTouche(event)
 {
  console.log(event.key);
@@ -144,91 +85,10 @@ function appuieTouche(event)
  }
 }
 var nombreBonbon=0;
-function compteBonbon()
-{
-  for(let ligne in grille)
-  {
-    for(let col in grille[ligne])
-    {
-      if(grille[ligne][col]==2)
-      {
-       nombreBonbon ++;
-      }
-    }
-  }
-}
-compteBonbon();
-function bougeMonFantome(monFantome, classFantome)
-{
-  monFantome.direction =getRandomIntInclusive(0,3)
-  if( monFantome.direction==0)
-  {
-    monFantome.x++;
-  }
-  else if( monFantome.direction==1)
-  {
-    monFantome.x--;
-  }
-  else if(monFantome.direction==2)
-  {
-    monFantome.y++;
-  }
-  else if(monFantome.direction==3)
-  {
-    monFantome.y--;
-  }
-  collisionFantome(monFantome)
-  collisionFantomePacman(monFantome)
-  let creationFantome=document.createElement("div");
-  creationFantome.classList.add(classFantome);
-  creationFantome.style.gridColumn= monFantome.x;
-  creationFantome.style.gridRow= monFantome.y;
-  _grille.appendChild(creationFantome);
-}
+PacMan.compteBonbon();
 function getRandomIntInclusive(min, max)
 {
   min=Math.ceil(min);
   max=Math.floor(max);
   return Math.floor(Math.random()*(max-min+1))+min;
-}
-function collisionFantome(monFantome)
-{
-  if(monFantome.direction==0)
-  {
-    if(grille[monFantome.y-1][monFantome.x-1]==0)
-    {
-      monFantome.x--;
-    }
-  }
-  else if(monFantome.direction==1)
-  {
-    if(grille[monFantome.y-1][monFantome.x-1]==0)
-    {
-      monFantome.x++;
-    }
-  }
-  else if(monFantome.direction==2)
-  {
-    if(grille[monFantome.y-1][monFantome.x-1]==0)
-    {
-      monFantome.y--;
-    }
-  }
-  else if(monFantome.direction==3)
-  {
-    if(grille[monFantome.y-1][monFantome.x-1]==0)
-    {
-      monFantome.y++;
-    }
-  }
-}
-function collisionFantomePacman(monFantome)
-{
-  if(monFantome.x==PacMan.x)
-  {
-    if(monFantome.y==PacMan.y)
-    {
-      alert("Game over...");
-    }
-  }
 }

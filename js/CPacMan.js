@@ -81,6 +81,19 @@ class Pacman{
     this.x=grille[0].length;
  }
  }
+ compteBonbon()
+{
+  for(let ligne in grille)
+  {
+    for(let col in grille[ligne])
+    {
+      if(grille[ligne][col]==2)
+      {
+       nombreBonbon ++;
+      }
+    }
+  }
+}
  mangeBonbon()
  {
   if(grille[this.y-1][this.x-1] == 2)
@@ -90,4 +103,33 @@ class Pacman{
     score++;
   }
  }
+ sensPacman()
+{
+  if(PacMan.direction==0)
+  {
+    derniereDirection="Recule";
+  }
+  else if(PacMan.direction==1)
+  {
+    derniereDirection="Avance";
+  }
+  else if(PacMan.direction==2)
+  {
+    derniereDirection="Monte";
+  }
+  else if(PacMan.direction==3)
+  {
+    derniereDirection="Descend";
+  }
+}
+collisionFantomePacman(blocF)
+{
+  if(blocF.x==this.x)
+  {
+    if(blocF.y==this.y)
+    {
+      alert("Game over...");
+    }
+  }
+}
 }
